@@ -1,5 +1,6 @@
 import PyPDF3
 import argparse
+import bcolors
 import re
 from os.path import isfile, join, isdir, splitext
 from os import listdir
@@ -25,6 +26,8 @@ def search(path, term, flags):
 
             # We only care about PDFs
             if file_extension == ".pdf":
+
+                bcolors.print_searching("Searching in: " + filename + " ... ")
                 pdf_file_object = open(join(path, item), 'rb')
                 pdf_reader = PyPDF3.PdfFileReader(pdf_file_object)
 
@@ -35,7 +38,7 @@ def search(path, term, flags):
                     # If the term exists in the PDF, print out the file and the page
 
                     if re.search(term, text, flags=flags):
-                        print("File: " + join(path, item) + " Page: " + str(page_number))
+                        bcolors.print_found("\tFOUND: " + join(path, item) + " Page: " + str(page_number))
 
                 # Close after searching
                 pdf_file_object.close()
