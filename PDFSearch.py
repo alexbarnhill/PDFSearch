@@ -13,6 +13,14 @@ def print_usage():
     print("----------------------------------------------------------------------------------------")
 
 
+def print_searching(string):
+    bcolors.print_ok_blue(string)
+
+
+def print_found(string):
+    bcolors.print_ok_green(string)
+
+
 def search(path, term, flags):
 
     # Check every item in the directory
@@ -27,7 +35,7 @@ def search(path, term, flags):
             # We only care about PDFs
             if file_extension == ".pdf":
 
-                bcolors.print_searching("Searching in: " + filename + " ... ")
+                print_searching("Searching in: " + filename + " ... ")
                 pdf_file_object = open(join(path, item), 'rb')
                 pdf_reader = PyPDF3.PdfFileReader(pdf_file_object)
 
@@ -38,7 +46,7 @@ def search(path, term, flags):
                     # If the term exists in the PDF, print out the file and the page
 
                     if re.search(term, text, flags=flags):
-                        bcolors.print_found("\tFOUND: " + join(path, item) + " Page: " + str(page_number))
+                        print_found("\tFOUND: " + join(path, item) + " Page: " + str(page_number))
 
                 # Close after searching
                 pdf_file_object.close()
